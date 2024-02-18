@@ -1,0 +1,43 @@
+{
+  "name": "@zoom-dialer/shared-protocol",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Language-neutral IPC protocol contracts for Zoom Dialer Companion",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./schema/*": "./schema/*"
+  },
+  "files": [
+    "dist",
+    "schema",
+    "README.md"
+  ],
+  "scripts": {
+    "generate": "node ./scripts/generate-types.mjs",
+    "prepare": "npm run build",
+    "build": "npm run generate && tsc -p tsconfig.json",
+    "typecheck": "npm run generate && tsc -p tsconfig.json --noEmit",
+    "test": "npm run generate && vitest run",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^22.15.32",
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
+    "eslint": "^9.30.1",
+    "json-schema-to-typescript": "^15.0.4",
+    "prettier": "^3.6.2",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.35.1",
+    "vitest": "^3.2.4"
+  }
+}
