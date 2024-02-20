@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zoomdialer.local/protocol/error-code.schema.json",
+  "title": "ProtocolErrorCode",
+  "type": "string",
+  "enum": [
+    "UnknownError",
+    "InvalidMessage",
+    "UnsupportedVersion",
+    "Timeout",
+    "DeviceUnavailable",
+    "PlaybackFailed",
+    "ConfigurationError",
+    "InternalError"
+  ]
+}

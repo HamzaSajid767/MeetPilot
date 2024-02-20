@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zoomdialer.local/protocol/validators.schema.json",
+  "title": "ProtocolValidators",
+  "$defs": {
+    "IMessageValidator": {
+      "title": "IMessageValidator",
+      "type": "object",
+      "description": "Interface-only contract marker for message shape validation. Implementations are defined outside this package.",
+      "additionalProperties": false,
+      "properties": {
+        "interfaceName": { "const": "IMessageValidator" }
+      },
+      "required": ["interfaceName"]
+    },
+    "IProtocolVersionValidator": {
+      "title": "IProtocolVersionValidator",
+      "type": "object",
+      "description": "Interface-only contract marker for protocol version compatibility checks. Implementations are defined outside this package.",
+      "additionalProperties": false,
+      "properties": {
+        "interfaceName": { "const": "IProtocolVersionValidator" }
+      },
+      "required": ["interfaceName"]
+    }
+  }
+}

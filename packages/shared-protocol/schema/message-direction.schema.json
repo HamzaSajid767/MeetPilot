@@ -1,0 +1,8 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zoomdialer.local/protocol/message-direction.schema.json",
+  "title": "MessageDirection",
+  "type": "string",
+  "enum": ["request", "response", "event"],
+  "description": "Direction of a protocol message on the duplex control channel."
+}

@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zoomdialer.local/protocol/envelope.schema.json",
+  "title": "ProtocolEnvelopes",
+  "$defs": {
+    "MessageEnvelope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "type", "protocolVersion", "direction", "ts"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "description": "Unique message identifier / request ID."
+        },
+        "type": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Message name (command or event)."
+        },
+        "protocolVersion": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Semantic protocol version for this message."
+        },
+        "direction": { "$ref": "message-direction.schema.json" },
+        "correlationId": {
+          "type": ["string", "null"],
+          "minLength": 1,
+          "maxLength": 64,
+          "description": "Optional correlation identifier linking related messages."
+        },
+        "requestId": {
+          "type": ["string", "null"],
+          "minLength": 1,
+          "maxLength": 64,
+          "description": "Optional request identifier echoed on responses."
+        },
+        "payload": {
+          "description": "Optional structured payload object.",
+          "oneOf": [{ "type": "object" }, { "type": "null" }]
+        },
+        "ts": {
+          "type": "string",
+          "format": "date-time",
+          "description": "UTC timestamp when the message was created."
+        }
+      }
+    },
+    "ErrorEnvelope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "message", "retriable"],
+      "properties": {
+        "code": { "$ref": "error-code.schema.json" },
+        "message": { "type": "string", "minLength": 1 },
+        "retriable": { "type": "boolean" },
+        "details": {
+          "oneOf": [{ "type": "object" }, { "type": "null" }]
+        }
+      }
+    },
+    "SuccessEnvelope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ok"],
+      "properties": {
+        "ok": { "const": true },
+        "data": {
+          "oneOf": [{ "type": "object" }, { "type": "null" }]
+        }
+      }
+    },
+    "ErrorResponseEnvelope": {
+      "allOf": [
+        { "$ref": "#/$defs/MessageEnvelope" },
+        {
+          "type": "object",
+          "required": ["direction", "payload"],
+          "properties": {
+            "direction": { "const": "response" },
+            "payload": { "$ref": "#/$defs/ErrorEnvelope" }
+          }
+        }
+      ]
+    },
+    "SuccessResponseEnvelope": {
+      "allOf": [
+        { "$ref": "#/$defs/MessageEnvelope" },
+        {
+          "type": "object",
+          "required": ["direction", "payload"],
+          "properties": {
+            "direction": { "const": "response" },
+            "payload": { "$ref": "#/$defs/SuccessEnvelope" }
+          }
+        }
+      ]
+    }
+  }
+}
