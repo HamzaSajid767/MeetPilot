@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zoomdialer.local/protocol/events.schema.json",
+  "title": "ProtocolEvents",
+  "$defs": {
+    "HostStartedEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["startedAt"],
+      "properties": {
+        "startedAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "HostStoppedEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stoppedAt"],
+      "properties": {
+        "stoppedAt": { "type": "string", "format": "date-time" },
+        "reason": { "type": ["string", "null"] }
+      }
+    },
+    "PlaybackStartedEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["phraseId"],
+      "properties": {
+        "phraseId": { "type": "string", "minLength": 1 },
+        "durationMs": { "type": ["integer", "null"], "minimum": 0 }
+      }
+    },
+    "PlaybackFinishedEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["phraseId"],
+      "properties": {
+        "phraseId": { "type": "string", "minLength": 1 }
+      }
+    },
+    "PlaybackCompletedEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["phraseId"],
+      "properties": {
+        "phraseId": { "type": "string", "minLength": 1 }
+      }
+    },
+    "PlaybackFailedEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["phraseId", "code", "message"],
+      "properties": {
+        "phraseId": { "type": "string", "minLength": 1 },
+        "code": { "$ref": "error-code.schema.json" },
+        "message": { "type": "string", "minLength": 1 }
+      }
+    },
+    "MicrophoneStartedEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["deviceId"],
+      "properties": {
+        "deviceId": { "type": "string", "minLength": 1 },
+        "friendlyName": { "type": ["string", "null"], "minLength": 1 }
+      }
+    },
+    "MicrophoneStoppedEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "reason": { "type": ["string", "null"] }
+      }
+    },
+    "MicrophoneFailedEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "message"],
+      "properties": {
+        "code": { "$ref": "error-code.schema.json" },
+        "message": { "type": "string", "minLength": 1 }
+      }
+    },
+    "AudioLevelsEvent": {
+      "$ref": "dtos.schema.json#/$defs/AudioLevelsDto"
+    },
+    "DeviceChangedEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["device"],
+      "properties": {
+        "device": { "$ref": "dtos.schema.json#/$defs/AudioDeviceDto" }
+      }
+    },
+    "HealthStatusChangedEvent": {
+      "$ref": "dtos.schema.json#/$defs/HealthStatusDto"
+    },
+    "ErrorOccurredEvent": {
+      "$ref": "envelope.schema.json#/$defs/ErrorEnvelope"
+    }
+  }
+}

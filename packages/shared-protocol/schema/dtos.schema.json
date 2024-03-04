@@ -1,0 +1,263 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zoomdialer.local/protocol/dtos.schema.json",
+  "title": "ProtocolDtos",
+  "$defs": {
+    "AudioDeviceDto": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "friendlyName", "isDefault"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "friendlyName": { "type": "string", "minLength": 1 },
+        "isDefault": { "type": "boolean" }
+      }
+    },
+    "AudioOutputDeviceDto": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "friendlyName",
+        "isDefault",
+        "deviceState",
+        "supportsPlayback",
+        "isVirtualDevice"
+      ],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "friendlyName": { "type": "string", "minLength": 1 },
+        "isDefault": { "type": "boolean" },
+        "deviceState": {
+          "type": "string",
+          "enum": ["Active", "Disabled", "NotPresent", "Unplugged"]
+        },
+        "supportsPlayback": { "type": "boolean" },
+        "isVirtualDevice": { "type": "boolean" }
+      }
+    },
+    "AudioOutputDeviceListDto": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["devices"],
+      "properties": {
+        "devices": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/AudioOutputDeviceDto" }
+        }
+      }
+    },
+    "AudioInputDeviceDto": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "friendlyName",
+        "isDefault",
+        "deviceState",
+        "supportsCapture",
+        "isVirtualDevice"
+      ],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "friendlyName": { "type": "string", "minLength": 1 },
+        "isDefault": { "type": "boolean" },
+        "deviceState": {
+          "type": "string",
+          "enum": ["Active", "Disabled", "NotPresent", "Unplugged"]
+        },
+        "supportsCapture": { "type": "boolean" },
+        "isVirtualDevice": { "type": "boolean" }
+      }
+    },
+    "AudioInputDeviceListDto": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["devices"],
+      "properties": {
+        "devices": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/AudioInputDeviceDto" }
+        }
+      }
+    },
+    "SetMicrophoneResultDto": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["deviceId", "succeeded"],
+      "properties": {
+        "deviceId": { "type": "string", "minLength": 1 },
+        "succeeded": { "type": "boolean" },
+        "friendlyName": { "type": ["string", "null"], "minLength": 1 }
+      }
+    },
+    "SetMixerGainsResultDto": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["microphoneGain", "playbackGain", "masterGain", "succeeded"],
+      "properties": {
+        "microphoneGain": { "type": "number", "minimum": 0, "maximum": 1 },
+        "playbackGain": { "type": "number", "minimum": 0, "maximum": 1 },
+        "masterGain": { "type": "number", "minimum": 0, "maximum": 1 },
+        "succeeded": { "type": "boolean" }
+      }
+    },
+    "AudioLevelsDto": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "microphonePeak",
+        "microphoneRms",
+        "playbackPeak",
+        "playbackRms",
+        "outputPeak",
+        "outputRms",
+        "microphoneClipped",
+        "playbackClipped",
+        "outputClipped"
+      ],
+      "properties": {
+        "microphonePeak": { "type": "number", "minimum": 0 },
+        "microphoneRms": { "type": "number", "minimum": 0 },
+        "playbackPeak": { "type": "number", "minimum": 0 },
+        "playbackRms": { "type": "number", "minimum": 0 },
+        "outputPeak": { "type": "number", "minimum": 0 },
+        "outputRms": { "type": "number", "minimum": 0 },
+        "microphoneClipped": { "type": "boolean" },
+        "playbackClipped": { "type": "boolean" },
+        "outputClipped": { "type": "boolean" }
+      }
+    },
+    "PlayTestToneResultDto": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["playbackId", "succeeded", "kind"],
+      "properties": {
+        "playbackId": { "type": "string", "minLength": 1 },
+        "succeeded": { "type": "boolean" },
+        "durationMs": { "type": ["integer", "null"], "minimum": 0 },
+        "kind": { "type": "string", "enum": ["sine", "pink", "white"] }
+      }
+    },
+    "SetOutputDeviceResultDto": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["deviceId", "succeeded"],
+      "properties": {
+        "deviceId": { "type": "string", "minLength": 1 },
+        "succeeded": { "type": "boolean" },
+        "friendlyName": { "type": ["string", "null"], "minLength": 1 }
+      }
+    },
+    "PlayAudioResultDto": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["phraseId", "succeeded"],
+      "properties": {
+        "phraseId": { "type": "string", "minLength": 1 },
+        "succeeded": { "type": "boolean" },
+        "durationMs": { "type": ["integer", "null"], "minimum": 0 },
+        "outputDeviceId": { "type": ["string", "null"], "minLength": 1 },
+        "outputDeviceName": { "type": ["string", "null"], "minLength": 1 },
+        "usedFallbackDevice": { "type": ["boolean", "null"] },
+        "fallbackReason": { "type": ["string", "null"] },
+        "errorCode": {
+          "oneOf": [{ "$ref": "error-code.schema.json" }, { "type": "null" }]
+        }
+      }
+    },
+    "PlaybackRequestDto": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["phraseId"],
+      "properties": {
+        "phraseId": { "type": "string", "minLength": 1 },
+        "gainDb": { "type": ["number", "null"] },
+        "fadeInMs": { "type": ["integer", "null"], "minimum": 0 },
+        "fadeOutMs": { "type": ["integer", "null"], "minimum": 0 }
+      }
+    },
+    "PlaybackResultDto": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["phraseId", "succeeded"],
+      "properties": {
+        "phraseId": { "type": "string", "minLength": 1 },
+        "succeeded": { "type": "boolean" },
+        "durationMs": { "type": ["integer", "null"], "minimum": 0 },
+        "errorCode": {
+          "oneOf": [{ "$ref": "error-code.schema.json" }, { "type": "null" }]
+        }
+      }
+    },
+    "HealthStatusDto": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["engineState", "capturedAt"],
+      "properties": {
+        "engineState": {
+          "type": "string",
+          "enum": ["Idle", "Armed", "Mixing", "Playing", "Recovering", "Faulted"]
+        },
+        "capturedAt": { "type": "string", "format": "date-time" },
+        "underrunCount": { "type": ["integer", "null"], "minimum": 0 },
+        "overrunCount": { "type": ["integer", "null"], "minimum": 0 }
+      }
+    },
+    "VersionInfoDto": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["protocolVersion", "applicationVersion"],
+      "properties": {
+        "protocolVersion": { "type": "string", "minLength": 1 },
+        "applicationVersion": { "type": "string", "minLength": 1 },
+        "minimumSupportedVersion": { "type": ["string", "null"], "minLength": 1 }
+      }
+    },
+    "ApplicationStateDto": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["engineState", "isHealthy"],
+      "properties": {
+        "engineState": {
+          "type": "string",
+          "enum": ["Idle", "Armed", "Mixing", "Playing", "Recovering", "Faulted"]
+        },
+        "isHealthy": { "type": "boolean" },
+        "detail": { "type": ["string", "null"] }
+      }
+    },
+    "TtsVoiceDto": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "displayName", "language"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "displayName": { "type": "string", "minLength": 1 },
+        "language": { "type": "string" },
+        "gender": { "type": ["string", "null"] }
+      }
+    },
+    "AvailableVoicesDto": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["voices"],
+      "properties": {
+        "voices": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/TtsVoiceDto" }
+        }
+      }
+    },
+    "SynthesizeSpeechResultDto": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "durationMs", "succeeded"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "durationMs": { "type": "integer", "minimum": 0 },
+        "succeeded": { "type": "boolean" }
+      }
+    }
+  }
+}

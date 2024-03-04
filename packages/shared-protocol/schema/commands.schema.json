@@ -1,0 +1,187 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zoomdialer.local/protocol/commands.schema.json",
+  "title": "ProtocolCommands",
+  "$defs": {
+    "PingCommand": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "nonce": { "type": ["string", "null"] }
+      }
+    },
+    "PongCommand": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["nonce"],
+      "properties": {
+        "nonce": { "type": "string" }
+      }
+    },
+    "HealthCheckCommand": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {}
+    },
+    "ShutdownCommand": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "reason": { "type": ["string", "null"] }
+      }
+    },
+    "InitializeCommand": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["clientName"],
+      "properties": {
+        "clientName": { "type": "string", "minLength": 1 },
+        "clientVersion": { "type": ["string", "null"] },
+        "authToken": { "type": ["string", "null"] }
+      }
+    },
+    "GetVersionCommand": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {}
+    },
+    "PlayPhraseCommand": {
+      "$ref": "dtos.schema.json#/$defs/PlaybackRequestDto"
+    },
+    "StopPlaybackCommand": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {}
+    },
+    "PlayAudioCommand": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "volume"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "volume": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "GetAudioOutputDevicesCommand": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {}
+    },
+    "SetOutputDeviceCommand": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["deviceId"],
+      "properties": {
+        "deviceId": { "type": "string", "minLength": 1 }
+      }
+    },
+    "GetAudioInputDevicesCommand": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {}
+    },
+    "StartMicrophoneCommand": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {}
+    },
+    "StopMicrophoneCommand": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {}
+    },
+    "SetMixerGainsCommand": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["microphoneGain", "playbackGain"],
+      "properties": {
+        "microphoneGain": { "type": "number", "minimum": 0, "maximum": 1 },
+        "playbackGain": { "type": "number", "minimum": 0, "maximum": 1 },
+        "masterGain": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "PlayTestToneCommand": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "volume"],
+      "properties": {
+        "kind": { "type": "string", "enum": ["sine", "pink", "white"] },
+        "frequencyHz": { "type": "number", "exclusiveMinimum": 0, "maximum": 20000 },
+        "volume": { "type": "number", "minimum": 0, "maximum": 1 },
+        "durationMs": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "GetAvailableVoicesCommand": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {}
+    },
+    "SynthesizeSpeechCommand": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["text", "outputPath"],
+      "properties": {
+        "text": { "type": "string", "minLength": 1 },
+        "voiceId": { "type": ["string", "null"] },
+        "rate": { "type": "integer", "minimum": -10, "maximum": 10 },
+        "volume": { "type": "number", "minimum": 0, "maximum": 1 },
+        "outputPath": { "type": "string", "minLength": 1 }
+      }
+    },
+    "StartRecordingCommand": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["outputPath"],
+      "properties": {
+        "outputPath": { "type": "string", "minLength": 1 },
+        "deviceId": { "type": ["string", "null"] }
+      }
+    },
+    "StopRecordingCommand": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {}
+    },
+    "CancelRecordingCommand": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {}
+    },
+    "SpeakTextCommand": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["text"],
+      "properties": {
+        "text": { "type": "string", "minLength": 1 },
+        "voiceId": { "type": ["string", "null"] },
+        "gainDb": { "type": ["number", "null"] }
+      }
+    },
+    "GetAudioDevicesCommand": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {}
+    },
+    "SetMicrophoneCommand": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["deviceId"],
+      "properties": {
+        "deviceId": { "type": "string", "minLength": 1 }
+      }
+    },
+    "SetVirtualOutputCommand": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["deviceId"],
+      "properties": {
+        "deviceId": { "type": "string", "minLength": 1 }
+      }
+    },
+    "ReloadConfigurationCommand": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {}
+    }
+  }
+}

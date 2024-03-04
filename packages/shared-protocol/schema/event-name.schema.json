@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zoomdialer.local/protocol/event-name.schema.json",
+  "title": "ProtocolEventName",
+  "type": "string",
+  "enum": [
+    "HostStarted",
+    "HostStopped",
+    "PlaybackStarted",
+    "PlaybackFinished",
+    "PlaybackCompleted",
+    "PlaybackFailed",
+    "DeviceChanged",
+    "HealthStatusChanged",
+    "ErrorOccurred",
+    "EngineStateChanged",
+    "DeviceListChanged",
+    "DeviceLost",
+    "PlaybackProgress",
+    "PlaybackEnded",
+    "PlaybackError",
+    "MicrophoneStarted",
+    "MicrophoneStopped",
+    "MicrophoneFailed",
+    "AudioLevels",
+    "Underrun",
+    "Overrun",
+    "HealthSnapshot"
+  ]
+}

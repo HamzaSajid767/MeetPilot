@@ -1,0 +1,14 @@
+{
+  "rootDirectoryName": "ZoomDialerCompanion",
+  "directories": {
+    "config": "config",
+    "database": "database",
+    "logs": "logs",
+    "assets": "assets",
+    "phrases": "phrases",
+    "cache": "cache",
+    "temp": "temp",
+    "imports": "imports",
+    "exports": "exports"
+  }
+}
