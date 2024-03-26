@@ -1,0 +1,17 @@
+<Project>
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <VersionPrefix>0.1.0</VersionPrefix>
+    <Authors>SeptSol</Authors>
+    <Product>Zoom Dialer Companion</Product>
+    <Company>SeptSol</Company>
+    <AssemblyTitle>Zoom Dialer Audio Sidecar</AssemblyTitle>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+</Project>

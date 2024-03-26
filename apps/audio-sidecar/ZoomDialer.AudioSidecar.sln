@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{952A2A9A-5AE4-441B-A8A8-0A448E59E29B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZoomDialer.AudioSidecar", "src\ZoomDialer.AudioSidecar\ZoomDialer.AudioSidecar.csproj", "{AC983C82-3F45-4349-BF4F-063BDA60451D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{3F42A579-4752-454B-A3D0-AA7FE65FCC80}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZoomDialer.AudioSidecar.Tests", "tests\ZoomDialer.AudioSidecar.Tests\ZoomDialer.AudioSidecar.Tests.csproj", "{A505C18E-F37A-4607-981B-ABD547F65207}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AC983C82-3F45-4349-BF4F-063BDA60451D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC983C82-3F45-4349-BF4F-063BDA60451D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC983C82-3F45-4349-BF4F-063BDA60451D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC983C82-3F45-4349-BF4F-063BDA60451D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A505C18E-F37A-4607-981B-ABD547F65207}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A505C18E-F37A-4607-981B-ABD547F65207}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A505C18E-F37A-4607-981B-ABD547F65207}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A505C18E-F37A-4607-981B-ABD547F65207}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{AC983C82-3F45-4349-BF4F-063BDA60451D} = {952A2A9A-5AE4-441B-A8A8-0A448E59E29B}
+		{A505C18E-F37A-4607-981B-ABD547F65207} = {3F42A579-4752-454B-A3D0-AA7FE65FCC80}
+	EndGlobalSection
+EndGlobal

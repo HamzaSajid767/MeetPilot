@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>ZoomDialer.AudioSidecar</RootNamespace>
+    <AssemblyName>ZoomDialer.AudioSidecar</AssemblyName>
+    <Description>Windows audio engine sidecar for Zoom Dialer Companion</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Hosting" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" />
+    <PackageReference Include="Microsoft.Extensions.Options.DataAnnotations" />
+    <PackageReference Include="System.IO.Pipes.AccessControl" />
+    <PackageReference Include="NAudio" />
+    <PackageReference Include="System.Speech" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\..\..\..\packages\shared-protocol\schema\**\*" Exclude="..\..\..\..\packages\shared-protocol\schema\app-paths.constants.json" Link="ProtocolSchema\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="Never" />
+    <Content Include="..\..\..\..\packages\shared-protocol\schema\app-paths.constants.json" Link="app-paths.constants.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>
