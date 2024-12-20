@@ -1,0 +1,131 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - master
+      - develop
+  pull_request:
+    branches:
+      - main
+      - master
+      - develop
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  NODE_VERSION: '22'
+  DOTNET_VERSION: '8.0.x'
+  DOTNET_CLI_TELEMETRY_OPTOUT: '1'
+
+jobs:
+  shared-protocol:
+    name: Shared Protocol
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: packages/shared-protocol
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: packages/shared-protocol/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate protocol types
+        run: npm run generate
+
+      - name: Check formatting
+        run: npm run format:check
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Unit tests
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+  desktop:
+    name: Desktop
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: apps/desktop
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: apps/desktop/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check formatting
+        run: npm run format:check
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Unit tests
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+  sidecar:
+    name: Audio Sidecar
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: apps/audio-sidecar
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('apps/audio-sidecar/Directory.Packages.props', 'apps/audio-sidecar/**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Restore
+        run: dotnet restore ZoomDialer.AudioSidecar.sln
+
+      - name: Build
+        run: dotnet build ZoomDialer.AudioSidecar.sln --no-restore -warnaserror
+
+      - name: Unit tests
+        run: dotnet test ZoomDialer.AudioSidecar.sln --no-build --verbosity normal
+
+      - name: Verify formatting
+        run: dotnet format ZoomDialer.AudioSidecar.sln --verify-no-changes
